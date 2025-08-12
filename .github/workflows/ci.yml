@@ -73,14 +73,26 @@ jobs:
         cache-from: type=gha
         cache-to: type=gha,mode=max
 
+    - name: Extract Docker Hub metadata
+      id: meta-dockerhub
+      if: steps.dockerhub-check.outputs.dockerhub_available == 'true'
+      uses: docker/metadata-action@v5
+      with:
+        images: ${{ env.DOCKER_HUB_REGISTRY }}/${{ github.repository_owner }}/aws-starter-${{ matrix.service }}
+        tags: |
+          type=ref,event=branch
+          type=ref,event=pr
+          type=sha,prefix={{branch}}-
+          type=raw,value=latest,enable={{is_default_branch}}
+
     - name: Build and push to Docker Hub
       uses: docker/build-push-action@v5
       if: steps.dockerhub-check.outputs.dockerhub_available == 'true'
       with:
         context: ./${{ matrix.service }}
         push: true
-        tags: ${{ env.DOCKER_HUB_REGISTRY }}/${{ github.repository_owner }}/aws-starter-${{ matrix.service }}:latest
-        labels: ${{ steps.meta-github.outputs.labels }}
+        tags: ${{ steps.meta-dockerhub.outputs.tags }}
+        labels: ${{ steps.meta-dockerhub.outputs.labels }}
         cache-from: type=gha
 
   test:
