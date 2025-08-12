@@ -1,6 +1,6 @@
 # 🚀 AWS Starter App
 
-A multi-service containerized application template with CI/CD pipeline, perfect for getting started with microservices on AWS or any container platform.
+A multi-service containerized application template with CI/CD pipeline, perfect for getting started with microservices on AWS or any container platform. Hi!
 
 ## 🏗️ Architecture
 
@@ -39,9 +39,9 @@ docker-compose up --build
 
 ### 2. Access the Application
 
-- **Frontend**: http://localhost:8080
-- **API**: http://localhost:8000
-- **API Docs**: http://localhost:8000/docs (FastAPI auto-generated)
+- **Frontend**: <http://localhost:8080>
+- **API**: <http://localhost:8000>
+- **API Docs**: <http://localhost:8000/docs> (FastAPI auto-generated)
 
 ### 3. Using Make Commands
 
@@ -99,9 +99,11 @@ aws-starter/
 ### Environment Variables
 
 #### Worker Service
+
 - `HEARTBEAT_INTERVAL` - Heartbeat interval in seconds (default: 30)
 
 #### API Service
+
 - `ENV` - Environment name (development, production)
 
 ## 🚀 Deployment
@@ -133,6 +135,7 @@ The GitHub Actions workflow automatically:
 #### Required Secrets (Optional)
 
 For Docker Hub integration, add these GitHub secrets:
+
 - `DOCKERHUB_USERNAME` - Your Docker Hub username
 - `DOCKERHUB_TOKEN` - Your Docker Hub access token
 
@@ -156,6 +159,7 @@ curl http://localhost:8080/
 ### Automated Testing
 
 The CI pipeline includes:
+
 - Service health checks
 - API endpoint testing
 - Worker heartbeat verification
@@ -215,3 +219,4 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 - [Docker Compose Documentation](https://docs.docker.com/compose/)
 - [GitHub Actions Documentation](https://docs.github.com/en/actions)
 - [NGINX Documentation](https://nginx.org/en/docs/)
+
