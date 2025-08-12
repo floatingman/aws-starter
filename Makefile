@@ -14,12 +14,12 @@ help:
 # Build all Docker images
 build:
 	@echo "Building all services..."
-	docker-compose build
+	docker compose build
 
 # Start services
 compose-up:
 	@echo "Starting services..."
-	docker-compose up -d
+	docker compose up -d
 	@echo "Services started!"
 	@echo "Frontend: http://localhost:8080"
 	@echo "API: http://localhost:8000"
@@ -27,7 +27,7 @@ compose-up:
 # Stop services
 compose-down:
 	@echo "Stopping services..."
-	docker-compose down -v
+	docker compose down -v
 
 # Push to GitHub Container Registry
 push-ghcr:
@@ -73,6 +73,6 @@ test:
 # Clean up
 clean:
 	@echo "Cleaning up..."
-	docker-compose down -v --remove-orphans
+	docker compose down -v --remove-orphans
 	docker system prune -f
 	@echo "Cleanup complete!"

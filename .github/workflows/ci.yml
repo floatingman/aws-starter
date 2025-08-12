@@ -65,7 +65,7 @@ jobs:
 
     - name: Start services
       run: |
-        docker-compose up -d
+        docker compose up -d
         sleep 30  # Wait for services to be ready
 
     - name: Test API endpoints
@@ -82,9 +82,9 @@ jobs:
 
     - name: Check worker logs
       run: |
-        docker-compose logs worker | grep "Heartbeat" || exit 1
+        docker compose logs worker | grep "Heartbeat" || exit 1
 
     - name: Cleanup
       if: always()
       run: |
-        docker-compose down -v
+        docker compose down -v
