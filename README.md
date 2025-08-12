@@ -1,6 +1,6 @@
 # 🚀 AWS Starter App
 
-A multi-service containerized application template with CI/CD pipeline, perfect for getting started with microservices on AWS or any container platform. Hi!
+A multi-service containerized application template with CI/CD pipeline, perfect for getting started with microservices on AWS or any container platform.
 
 ## 🏗️ Architecture
 
