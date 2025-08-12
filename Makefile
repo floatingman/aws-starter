@@ -37,9 +37,9 @@ push-ghcr:
 		echo "Usage: make push-ghcr GITHUB_REPO=username/repo-name"; \
 		exit 1; \
 	fi
-	docker tag aws-starter-frontend ghcr.io/$(GITHUB_REPO)/frontend:latest
-	docker tag aws-starter-api ghcr.io/$(GITHUB_REPO)/api:latest
-	docker tag aws-starter-worker ghcr.io/$(GITHUB_REPO)/worker:latest
+	docker tag aws-starter_frontend ghcr.io/$(GITHUB_REPO)/frontend:latest
+	docker tag aws-starter_api ghcr.io/$(GITHUB_REPO)/api:latest
+	docker tag aws-starter_worker ghcr.io/$(GITHUB_REPO)/worker:latest
 	docker push ghcr.io/$(GITHUB_REPO)/frontend:latest
 	docker push ghcr.io/$(GITHUB_REPO)/api:latest
 	docker push ghcr.io/$(GITHUB_REPO)/worker:latest
@@ -52,9 +52,9 @@ push-dhub:
 		echo "Usage: make push-dhub DOCKER_USERNAME=your-username"; \
 		exit 1; \
 	fi
-	docker tag aws-starter-frontend $(DOCKER_USERNAME)/aws-starter-frontend:latest
-	docker tag aws-starter-api $(DOCKER_USERNAME)/aws-starter-api:latest
-	docker tag aws-starter-worker $(DOCKER_USERNAME)/aws-starter-worker:latest
+	docker tag aws-starter_frontend $(DOCKER_USERNAME)/aws-starter-frontend:latest
+	docker tag aws-starter_api $(DOCKER_USERNAME)/aws-starter-api:latest
+	docker tag aws-starter_worker $(DOCKER_USERNAME)/aws-starter-worker:latest
 	docker push $(DOCKER_USERNAME)/aws-starter-frontend:latest
 	docker push $(DOCKER_USERNAME)/aws-starter-api:latest
 	docker push $(DOCKER_USERNAME)/aws-starter-worker:latest
