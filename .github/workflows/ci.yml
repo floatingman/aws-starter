@@ -63,29 +63,25 @@ jobs:
           type=sha,prefix={{branch}}-
           type=raw,value=latest,enable={{is_default_branch}}
 
-    - name: Extract metadata (GitHub + Docker Hub)
-      id: meta-both
-      if: steps.dockerhub-check.outputs.dockerhub_available == 'true'
-      uses: docker/metadata-action@v5
-      with:
-        images: |
-          ${{ env.REGISTRY }}/${{ github.repository }}/${{ matrix.service }}
-          ${{ env.DOCKER_HUB_REGISTRY }}/${{ github.repository_owner }}/aws-starter-${{ matrix.service }}
-        tags: |
-          type=ref,event=branch
-          type=ref,event=pr
-          type=sha,prefix={{branch}}-
-          type=raw,value=latest,enable={{is_default_branch}}
-
-    - name: Build and push Docker image
+    - name: Build and push to GitHub Container Registry
       uses: docker/build-push-action@v5
       with:
         context: ./${{ matrix.service }}
         push: true
-        tags: ${{ steps.dockerhub-check.outputs.dockerhub_available == 'true' && steps.meta-both.outputs.tags || steps.meta-github.outputs.tags }}
-        labels: ${{ steps.dockerhub-check.outputs.dockerhub_available == 'true' && steps.meta-both.outputs.labels || steps.meta-github.outputs.labels }}
+        tags: ${{ steps.meta-github.outputs.tags }}
+        labels: ${{ steps.meta-github.outputs.labels }}
         cache-from: type=gha
         cache-to: type=gha,mode=max
+
+    - name: Build and push to Docker Hub
+      uses: docker/build-push-action@v5
+      if: steps.dockerhub-check.outputs.dockerhub_available == 'true'
+      with:
+        context: ./${{ matrix.service }}
+        push: true
+        tags: ${{ env.DOCKER_HUB_REGISTRY }}/${{ github.repository_owner }}/aws-starter-${{ matrix.service }}:latest
+        labels: ${{ steps.meta-github.outputs.labels }}
+        cache-from: type=gha
 
   test:
     runs-on: ubuntu-latest
