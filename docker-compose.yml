@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  frontend:
+    build: ./frontend
+    ports:
+      - "8080:80"
+    depends_on:
+      - api
+    networks:
+      - app-network
+
+  api:
+    build: ./api
+    ports:
+      - "8000:8000"
+    environment:
+      - ENV=development
+    networks:
+      - app-network
+
+  worker:
+    build: ./worker
+    environment:
+      - HEARTBEAT_INTERVAL=30
+      - ENV=development
+    networks:
+      - app-network
+    depends_on:
+      - api
+
+networks:
+  app-network:
+    driver: bridge
