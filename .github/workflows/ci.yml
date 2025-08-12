@@ -35,6 +35,22 @@ jobs:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
 
+    - name: Check Docker Hub credentials
+      if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+      run: |
+        if [ -z "${{ secrets.DOCKERHUB_USERNAME }}" ]; then
+          echo "❌ DOCKERHUB_USERNAME secret is not set"
+          exit 1
+        else
+          echo "✅ DOCKERHUB_USERNAME is set"
+        fi
+        if [ -z "${{ secrets.DOCKERHUB_TOKEN }}" ]; then
+          echo "❌ DOCKERHUB_TOKEN secret is not set"
+          exit 1
+        else
+          echo "✅ DOCKERHUB_TOKEN is set"
+        fi
+
     - name: Log in to Docker Hub
       uses: docker/login-action@v3
       if: github.event_name == 'push' && github.ref == 'refs/heads/main'
@@ -72,6 +88,12 @@ jobs:
         labels: ${{ steps.meta-ghcr.outputs.labels }}
         cache-from: type=gha
         cache-to: type=gha,mode=max
+
+    - name: Debug Docker Hub metadata
+      if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+      run: |
+        echo "Docker Hub tags: ${{ steps.meta-dockerhub.outputs.tags }}"
+        echo "Docker Hub labels: ${{ steps.meta-dockerhub.outputs.labels }}"
 
     - name: Build and push to Docker Hub
       uses: docker/build-push-action@v5
